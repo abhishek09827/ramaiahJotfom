@@ -51,7 +51,7 @@ const LoginPage = () => {
   if (location.pathname === '/example') {
     content = <Example />;
   }
-  else{
+  else if(location.pathname === '/') {
    content = <StyledContainer component="main" maxWidth="xs">
       <div>
         <Typography component="h1" variant="h4" sx={{ marginBottom: 3 }}>
@@ -95,6 +95,9 @@ const LoginPage = () => {
         </StyledForm>
       </div>
     </StyledContainer>
+  }
+  else {
+    content = <Example />;
   }
   
 
