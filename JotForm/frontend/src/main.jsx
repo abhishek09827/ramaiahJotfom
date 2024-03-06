@@ -7,10 +7,12 @@ import FormDataForm from './components/Form.jsx'
 import Example from './layout/Dashboard.jsx'
 import Tables from './components/Tables.jsx'
 import Admin from './layout/Admin.jsx'
+import LoginPage from './layout/SignIn.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<Example />}>
+    <Route path='/' element={<LoginPage />}>
+      <Route path='/example' element={<Example />} />
       <Route path='form' element={<FormDataForm />} />
       <Route path='table' element={<Tables />} />
       <Route path='admin' element={<Admin />} />

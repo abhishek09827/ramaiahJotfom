@@ -38,7 +38,7 @@ export default function Example() {
   else if (location.pathname === '/admin') {
     content = <Admin />;
   }
-   else {
+   else if (location.pathname === '/example'){
     content = <Tables />;
   }
   return (
