@@ -1,10 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Tables from '../components/Tables';
 import FormDataForm from '../components/Form';
-import { Paper, Typography, List, ListItem, ListItemText } from '@mui/material';
+import { Paper, Typography, List, ListItem, ListItemText, Button } from '@mui/material';
+import { Navigate} from 'react-router-dom';
+import Example from './Dashboard';
 const user = {
   name: 'Tom Cook',
   email: 'tom@example.com',
@@ -30,8 +32,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
+
+
+
 export default function Admin() {
-  const location = useLocation();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -51,38 +55,47 @@ export default function Admin() {
 
     fetchData();
   }, []);
-
+  const location = useLocation();
+  let content;
+  if (location.pathname === '/admin') {
+    content = <div style={{ padding: '20px' }}>
+    {data.map((department) => (
+      <Paper key={department._id} elevation={3} style={{ marginBottom: '20px', padding: '20px' }}>
+        <Typography variant="h5">{department.dept_name}</Typography>
+        <List>
+          <ListItem>
+            <ListItemText primary={`Department ID: ${department._id}`} />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary={`Administrator: ${department.isAdmin ? 'Yes' : 'No'}`} />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary={`Department Email: ${department.dept_email}`} />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary={`Department Password: ${department.dept_paswd}`} />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary={`Avatar: ${department.avatar}`} />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary={`Tables: ${department.tables.length}`} />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary={`Forms: ${department.forms.length}`} />
+          </ListItem>
+        </List>
+        <Button><Link to={'/example'}>View</Link></Button>
+      </Paper>
+    ))}
+  </div>;
+  }
+  else if(location.pathname === '/table'){
+    content = <Example />
+  }
 
     return (
-        <div style={{ padding: '20px' }}>
-          {data.map((department) => (
-            <Paper key={department._id} elevation={3} style={{ marginBottom: '20px', padding: '20px' }}>
-              <Typography variant="h5">{department.dept_name}</Typography>
-              <List>
-                <ListItem>
-                  <ListItemText primary={`Department ID: ${department._id}`} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary={`Administrator: ${department.isAdmin ? 'Yes' : 'No'}`} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary={`Department Email: ${department.dept_email}`} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary={`Department Password: ${department.dept_paswd}`} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary={`Avatar: ${department.avatar}`} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary={`Tables: ${department.tables.length}`} />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary={`Forms: ${department.forms.length}`} />
-                </ListItem>
-              </List>
-            </Paper>
-          ))}
-        </div>
-      );
+      <>
+        {content}
+        </>);
 }

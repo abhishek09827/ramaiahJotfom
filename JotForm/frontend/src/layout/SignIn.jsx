@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button, TextField, Typography, Container } from '@mui/material';
+import { Button, TextField, Typography, Container,FormControl, Radio, RadioGroup, FormLabel, FormControlLabel } from '@mui/material';
 import { styled } from '@mui/system';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, Link } from 'react-router-dom';
 import Example from './Dashboard';
 
 const StyledContainer = styled(Container)(({ theme }) => ({
@@ -24,6 +24,11 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [selectedValue, setSelectedValue] = React.useState('Admin');
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
 
 
   const handleEmailChange = (event) => {
@@ -44,7 +49,7 @@ const LoginPage = () => {
 
   if (submitted) {
     // Redirect to another page upon successful login
-    return <Navigate to="/example" />;
+    return selectedValue === 'Admin' ? <Navigate to="/admin" /> : <Navigate to="/example" />;
   }
   const location = useLocation();
   let content;
@@ -57,7 +62,7 @@ const LoginPage = () => {
         <Typography component="h1" variant="h4" sx={{ marginBottom: 3 }}>
           Sign in
         </Typography>
-        <StyledForm onSubmit={handleSubmit}>
+        <StyledForm>
           <TextField
             variant="outlined"
             margin="normal"
@@ -84,6 +89,19 @@ const LoginPage = () => {
             value={password}
             onChange={handlePasswordChange}
           />
+           <FormControl>
+      <FormLabel id="demo-controlled-radio-buttons-group">Select Role</FormLabel>
+      <RadioGroup
+        aria-labelledby="demo-controlled-radio-buttons-group"
+        name="controlled-radio-buttons-group"
+        value={selectedValue}
+        onChange={handleChange}
+      >
+        <FormControlLabel value="Admin" control={<Radio />} label="Admin" />
+        <FormControlLabel value="Dept" control={<Radio />} label="Dept" />
+      </RadioGroup>
+    </FormControl>
+    <Link to={selectedValue==="Admin" ? "/admin" : "/example"}>
           <StyledSubmitButton
             type="submit"
             fullWidth
@@ -92,6 +110,7 @@ const LoginPage = () => {
           >
             Sign In
           </StyledSubmitButton>
+          </Link>
         </StyledForm>
       </div>
     </StyledContainer>

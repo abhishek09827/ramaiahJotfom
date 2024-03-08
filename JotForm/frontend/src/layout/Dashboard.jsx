@@ -210,12 +210,12 @@ export default function Example() {
         </header>
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-          <Link
+          {location.pathname === '/admin' ? <div></div> : <Link
                             to="form"
                             className="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                         >
                             Add Entry
-                        </Link>
+                        </Link>}
                        {content}
                         
             
